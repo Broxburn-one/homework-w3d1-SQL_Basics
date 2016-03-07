@@ -3,19 +3,28 @@ Section 1
 ==========
 
 1. Select the names of all users
-    SELECT * FROM users;
+    SELECT name FROM users;
 
 2. Select the names of all shows that cost less than £15.
-   select * from shows where price < 15.00;
-
-3. Insert a user with the name "Val Gibson" into the users table.
-   INSERT INTO "users" (name) VALUES ('Val Gibson');
-
-4. Select the id of the user with your name.
-  SELECT id FROM users WHERE name = 'Val Gibson';
+   select 'name from 'shows where price < 15.00;
+   
+   3. Insert a user with the name "Val Gibson" into the users table.
+      INSERT INTO users (name) VALUES ('Val Gibson');
+   
+   4. Select the id of the user wih your name.
+     SELECT id FROM users WHERE name = 'Val Gibson';
 
 5. Insert a record that Val Gibson wants to attend the show "Two girls, one cup of comedy".
-    INSERT INTO "shows_users" (show_id, user_id) VALUES (10, 5);
+    INSERT INTO shows_users (show_id, user_id) VALUES (10, 5);
+
+    or
+
+    INSERT INTO shows_users  
+      (show_id, user_id) 
+    VALUES
+    (select id from show where name = 'Two girls, one cup of comedy',
+     select id from users where name = 'Valerie')
+
 
 6. Updates the name of the "Val Gibson" user to be "Valerie Gibson".
     UPDATE users SET name = 'Valerie Gibson' where name = 'Val Gibson';
@@ -24,7 +33,7 @@ Section 1
     DELETE FROM users WHERE name = 'Valerie Gibson';
 
 8. Deletes the shows for the user you just deleted.
-    delete from shows_users where user_id = 5;
+    delete from "shows_users" where "user_id = 5";
 
 Section 2
 ----------
@@ -61,6 +70,18 @@ Section 2
         ORDER BY price;
 
 
+        or:  
+
+        select 'name' 'price' from 'shows' order by price limit 1 offset 1;
+
+
+        [ LIMIT 1   just get 1
+        OFFSET 1   means skip 1st result and give next one ]
+
+
+
+
+
 8. Select the names of all users whose names start with the letter "N".
     SELECT name from users where name like 'N%';
 
@@ -91,7 +112,7 @@ also:
 
 2. Select the number of users who want to see "Shitfaced Shakespeare".
 
-select count(user_id) 
+  select count(user_id) 
   from shows_users
   inner join shows on
   shows_users.show_id = shows.id
@@ -141,3 +162,12 @@ victim, zombie, attack
 where attack_date = ’28 Jun 2015’
 and victim.id = attack.victim_id
 and zombie.id = attack.zombie.id;
+
+
+
+
+
+
+
+
+
